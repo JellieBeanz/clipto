@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import create, { State } from 'zustand';
-
 import { API_URL, DEV } from '../config/config';
 import { useExchangeContract } from '../hooks/useContracts';
 import { useEagerConnect } from '../hooks/useEagerConnect';
@@ -22,6 +21,7 @@ import { AvatarComponent } from './AvatarOrb';
 import { PrimaryButton } from './Button';
 import { ModalDialog } from './Dialog';
 import { Logo } from './Logo';
+import  Modal  from './Modal';
 // import { MetamaskIcon } from './icons/MetamaskIcon';
 // import { WalletConnectIcon } from './icons/WalletConnectIcon';
 
@@ -51,6 +51,21 @@ const HeaderWrapperOuter = styled.div`
   left: 0;
   right: 0;
 `;
+
+const OverlayModal = styled.div`
+  position: absolute;
+  margin-top: 80px;
+`
+
+
+const Button = styled.button`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+  color: palevioletred;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+`
 
 const HeaderWrapperInner = styled.div`
   display: flex;
@@ -209,8 +224,15 @@ const Header: React.FC<HeaderProps> = () => {
     getCreatorData();
   }, [account]);
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const openModal = () =>{
+    setShowModal(!showModal);
+  };
+
   return (
     <>
+    
       <HeaderWrapperOuter>
         <HeaderWrapperInner>
           <LeftWrapper>
@@ -224,7 +246,7 @@ const Header: React.FC<HeaderProps> = () => {
               {!account && (
                 <RightWrapper>
                   <PrimaryButton size={'small'} variant={'secondary'} onPress={() => setShowLoginDialog(true)}>
-                    Connect Wallet
+                   Connect Wallet
                   </PrimaryButton>
                 </RightWrapper>
               )}
@@ -247,6 +269,7 @@ const Header: React.FC<HeaderProps> = () => {
                     </RightWrapper>
                   )}
                   {!loggedInProfile && (
+                    <>
                     <RightWrapper>
                       <Link to={'/explore'}>
                         <StyledSpan style={{ marginRight: 40 }}>Explore</StyledSpan>
@@ -257,13 +280,17 @@ const Header: React.FC<HeaderProps> = () => {
                       <Link to={'/onboarding'}>
                         <StyledSpan style={{ marginRight: 40 }}>Become a creator</StyledSpan>
                       </Link>
-                      <RightWrapper onClick={logoutUser}>
+                      <RightWrapper onClick={openModal}>
                         <StyledSpan style={{ marginRight: 16 }}>
                           {userEnsName ?? getShortenedAddress(account, 6, 4)}
                         </StyledSpan>
                         <AvatarComponent address={account} />
+                        <OverlayModal>
+                          <Modal showModal={showModal} setShowModal={setShowModal}/>
+                        </OverlayModal>
                       </RightWrapper>
                     </RightWrapper>
+                    </>
                   )}
                 </>
               )}
@@ -289,7 +316,6 @@ const Header: React.FC<HeaderProps> = () => {
               {errorMessage && (
                 <div style={{ marginBottom: 12, color: '#FF6868', textAlign: 'left' }}>{errorMessage}</div>
               )}
-
               <PrimaryButton
                 variant={'secondary'}
                 style={{ marginBottom: 16, minWidth: 310 }}
@@ -305,7 +331,6 @@ const Header: React.FC<HeaderProps> = () => {
                   {currentlyActivating === 'metamask' ? <>{'Confirm in your wallet'}</> : 'Continue with Metamask'}
                 </div>
               </PrimaryButton>
-
               <PrimaryButton
                 variant={'secondary'}
                 style={{ marginBottom: 16, minWidth: 310 }}
@@ -325,7 +350,9 @@ const Header: React.FC<HeaderProps> = () => {
           </ModalDialog>
         </OverlayContainer>
       )}
+    
     </>
+    
   );
 };
 
