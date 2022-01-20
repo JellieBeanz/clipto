@@ -1,8 +1,10 @@
 
-import React, { Dispatch, SetStateAction, useRef } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { OutlinedContainer, Row } from "./layout/Common";
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
 
 const Container = styled(OutlinedContainer)` 
     border-radius: 10px;
@@ -43,14 +45,11 @@ setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Modal: React.FC <ModalProps> = (props) => {
-// const modalRef = useRef();
+    const { activate, account, deactivate } = useWeb3React<Web3Provider>();
+    const logoutUser = useCallback(async () => {
+        deactivate();
+      }, [deactivate]);
 
-// const closeModal = (e: { target: undefined; }) => {
-//     if (modalRef.current === e.target){
-//         setShowModal(false);
-//     }
-
-// }
     return (
         <>
             {props.showModal ?
@@ -58,7 +57,7 @@ const Modal: React.FC <ModalProps> = (props) => {
                     <Container>
                         <StyledSpan><Link to={'/settings'}>Settings</Link></StyledSpan>
                         <HR/>
-                        <StyledSpan><Link to={'/logout'}>Log out</Link></StyledSpan>
+                        <StyledSpan><div onClick={logoutUser}>Log out</div></StyledSpan>
                     </Container>
                 </>
                 : null}

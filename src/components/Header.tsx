@@ -230,6 +230,15 @@ const Header: React.FC<HeaderProps> = () => {
     setShowModal(!showModal);
   };
 
+  const modalRef = useRef();
+
+  const closeModal = (e: { target: undefined; }) => {
+      if (modalRef.current === e.target){
+          setShowModal(false);
+      }
+  
+  }
+
 
   return (
     <>
@@ -371,4 +380,4 @@ const HeaderContentGapSpacer = styled.div`
   max-height: ${SPACE_BETWEEN_HEADER_AND_CONTENT_IN_PX};
 `;
 
-export { Header, HeaderContentGapSpacer, HeaderSpacer };
+export { Header, HeaderContentGapSpacer, HeaderSpacer};
