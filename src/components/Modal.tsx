@@ -18,8 +18,22 @@ const HR = styled.div`
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: -20px;
-  width: 198%;
+  width: 192%;
   background-color: ${(props) => props.theme.border};
+`;
+
+const StyledSpan = styled.span`
+  display: block;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  color: #cccccc;
+  transition: color 0.15s ease;
+  :hover {
+    color: #ffffff;
+  }
 `;
 
 
@@ -29,15 +43,22 @@ setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Modal: React.FC <ModalProps> = (props) => {
-    
+// const modalRef = useRef();
+
+// const closeModal = (e: { target: undefined; }) => {
+//     if (modalRef.current === e.target){
+//         setShowModal(false);
+//     }
+
+// }
     return (
         <>
             {props.showModal ?
                 <>
                     <Container>
-                        <Row><Link to={'/settings'}>Settings</Link></Row>
+                        <StyledSpan><Link to={'/settings'}>Settings</Link></StyledSpan>
                         <HR/>
-                        <Row><Link to={'/logout'}>Log out</Link></Row>
+                        <StyledSpan><Link to={'/logout'}>Log out</Link></StyledSpan>
                     </Container>
                 </>
                 : null}

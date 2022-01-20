@@ -2,7 +2,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { OverlayContainer } from '@react-aria/overlays';
 import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import create, { State } from 'zustand';
@@ -230,9 +230,9 @@ const Header: React.FC<HeaderProps> = () => {
     setShowModal(!showModal);
   };
 
+
   return (
     <>
-    
       <HeaderWrapperOuter>
         <HeaderWrapperInner>
           <LeftWrapper>
