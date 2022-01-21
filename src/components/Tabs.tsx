@@ -75,9 +75,10 @@ function Tab({ item, state }: TabProps<ITabState>) {
       ref={ref}
       style={{
         marginRight: 48,
+        marginBottom: -1,
         paddingTop: 10,
         paddingBottom: 8,
-        borderBottom: isSelected ? '2px solid #ffffff' : '2px solid transparent',
+        borderBottom: isSelected ? '1px solid #ffffff' : '1px solid transparent',
         opacity: isDisabled ? '0.5' : undefined,
         outline: 'none',
         color: isSelected ? '#ffffff' : '#888F96',
